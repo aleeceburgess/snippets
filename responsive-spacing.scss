@@ -1,0 +1,48 @@
+//
+// Mixin for responsive spacing classes
+//
+
+@mixin margin-padding($property, $top: null, $right: null, $bottom: null, $left: null, $mediaquery: null) {
+    @if $mediaquery {
+      @include media('>=#{$mediaquery}') {
+        #{$property}-top: $top;
+        #{$property}-right: $right;
+        #{$property}-bottom: $bottom;
+        #{$property}-left: $left;
+      }
+    } @else {
+      #{$property}-top: $top;
+      #{$property}-right: $right;
+      #{$property}-bottom: $bottom;
+      #{$property}-left: $left;
+    }
+}
+
+
+
+
+$spacing: (
+  sm: ( // the different "sizes". Small, large, mega etc..
+    null: 8px, // key is the different media queries
+    smdesktop: 12px,
+    lgdesktop: 16px
+  ),
+  lg: (
+    null: 32px,
+    smdesktop: 48px,
+    lgdesktop: 64px
+  )
+);
+
+@each $size, $map in $spacing {
+    @each $key, $submap in $map {
+       .aleece-p-#{$size} {
+            @include margin-padding($property: 'padding', $top: $submap, $right: $submap, $bottom: $submap, $left: $submap, $mediaquery: $key ) ;
+        }
+
+        .aleece-pt-#{$size},
+        .aleece-py-#{$size} {
+            @include margin-padding($property: 'padding', $top: $submap, $mediaquery: $key ) ;
+        }
+    }
+}
